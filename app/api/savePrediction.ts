@@ -1,6 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+/* import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
-import { PrismaClient, Prediction } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+
+
 
 const prisma = new PrismaClient();
 const API_ENDPOINT = `https://baker-api.sportsdata.io/baker/v2/nfl/projections/players/2023REG/4/stat/passing_yards/avg?key=${process.env.SPORTS_DATA_API_KEY}&limit=20`;
@@ -38,3 +40,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await prisma.$disconnect();
   }
 }
+*/

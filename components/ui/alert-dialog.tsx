@@ -1,22 +1,26 @@
 "use client"
+import * as React from "react";
+import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "./button";
 
-import * as React from "react"
-import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
+// Define the extended type for AlertDialogPortalProps
+type ExtendedAlertDialogPortalProps = React.HTMLAttributes<HTMLDivElement>;
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-
-const AlertDialog = AlertDialogPrimitive.Root
-
-const AlertDialogTrigger = AlertDialogPrimitive.Trigger
-
-const AlertDialogPortal = ({
+// Use the extended type for AlertDialogPortal
+const AlertDialogPortal: React.FC<ExtendedAlertDialogPortalProps> = ({
   className,
+  children,
   ...props
-}: AlertDialogPrimitive.AlertDialogPortalProps) => (
-  <AlertDialogPrimitive.Portal className={cn(className)} {...props} />
-)
-AlertDialogPortal.displayName = AlertDialogPrimitive.Portal.displayName
+}) => (
+  <div className={cn(className)}>
+    <AlertDialogPrimitive.Portal {...props}>{children}</AlertDialogPrimitive.Portal>
+  </div>
+);
+AlertDialogPortal.displayName = AlertDialogPrimitive.Portal.displayName;
+
+// ... Rest of the code remains unchanged
+
 
 const AlertDialogOverlay = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
@@ -46,6 +50,7 @@ const AlertDialogContent = React.forwardRef<
         className
       )}
       {...props}
+
     />
   </AlertDialogPortal>
 ))
@@ -133,8 +138,6 @@ const AlertDialogCancel = React.forwardRef<
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
 
 export {
-  AlertDialog,
-  AlertDialogTrigger,
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogFooter,

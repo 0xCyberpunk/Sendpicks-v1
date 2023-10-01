@@ -49,6 +49,7 @@ export async function POST(req: Request) {
         create: {
           id: fields.address,
           address: fields.address,
+          revenue: 0,
         },
       })
     }
