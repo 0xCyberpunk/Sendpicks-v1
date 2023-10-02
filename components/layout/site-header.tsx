@@ -7,9 +7,10 @@ import useScroll from "@/lib/hooks/use-scroll"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { MainNav } from "@/components/layout/main-nav"
-import { MobileNav } from "@/components/layout/mobile-nav"
 import { ModeToggle } from "@/components/shared/mode-toggle"
 
+// If these paths are correct, there should be no issue. If there is still an error,
+// you need to check if WalletConnect is properly exported from the mentioned path
 import { WalletConnect } from "../blockchain/wallet-connect"
 
 export function SiteHeader() {
@@ -25,7 +26,7 @@ export function SiteHeader() {
     >
       <div className="container flex h-20 items-center">
         <MainNav onOpenSettings={() => setShowModal(true)} />
-        <MobileNav />
+
         <div className="hidden flex-1 items-center justify-between space-x-2 md:flex md:justify-end">
           <WalletConnect />
         </div>

@@ -14,7 +14,6 @@ model User {
   address      String        @unique
   wagers       Wager[]
   transactions Transactions[]
-  revenue  Float?   
 }
 
 model Sport {
