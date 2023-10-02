@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react"
-import axios from "axios"
+import React, { useState } from "react"
 
 import { Button } from "../ui/button"
 import {
@@ -23,22 +22,206 @@ export type Player = {
   imageUrl: string
 }
 
+export const players: Player[] = [
+  {
+    name: "Kirk Cousins",
+    team: "MIN",
+    position: "QB",
+    opponent: "Sep 14th vs PHI",
+    statValue: 273,
+    statType: "Pass Yards",
+    imageUrl: "/Kirk_Cousins.webp",
+  },
+  {
+    name: "Jalen Hurt",
+    team: "PHI",
+    position: "QB",
+    opponent: "Sep 12th vs DAL",
+    statValue: 250.5,
+    statType: "Pass Yards",
+    imageUrl: "/Hurts.webp",
+  },
+  {
+    name: "Kirk Cousins",
+    team: "MIN",
+    position: "QB",
+    opponent: "Sep 14th vs PHI",
+    statValue: 273,
+    statType: "Pass Yards",
+    imageUrl: "/Kirk_Cousins.webp",
+  },
+  {
+    name: "Justin Herbert",
+    team: "LAC",
+    position: "QB",
+    opponent: "Sep 13th vs CLE",
+    statValue: 331,
+    statType: "Pass Yards",
+    imageUrl: "/Herbert.webp",
+  },
+  {
+    name: "Justin Herbert",
+    team: "LAC",
+    position: "QB",
+    opponent: "Sep 13th vs CLE",
+    statValue: 331,
+    statType: "Pass Yards",
+    imageUrl: "/Herbert.webp",
+  },
+  {
+    name: "Jalen Hurt",
+    team: "PHI",
+    position: "QB",
+    opponent: "Sep 12th vs DAL",
+    statValue: 250.5,
+    statType: "Pass Yards",
+    imageUrl: "/Hurts.webp",
+  },
+  {
+    name: "Kirk Cousins",
+    team: "MIN",
+    position: "QB",
+    opponent: "Sep 14th vs PHI",
+    statValue: 273,
+    statType: "Pass Yards",
+    imageUrl: "/Kirk_Cousins.webp",
+  },
+  {
+    name: "Kirk Cousins",
+    team: "MIN",
+    position: "QB",
+    opponent: "Sep 14th vs PHI",
+    statValue: 273,
+    statType: "Pass Yards",
+    imageUrl: "/Kirk_Cousins.webp",
+  },
+  {
+    name: "Jalen Hurt",
+    team: "PHI",
+    position: "QB",
+    opponent: "Sep 12th vs DAL",
+    statValue: 250.5,
+    statType: "Receiving Yards",
+    imageUrl: "/Hurts.webp",
+  },
+  {
+    name: "Justin Herbert",
+    team: "LAC",
+    position: "QB",
+    opponent: "Sep 13th vs CLE",
+    statValue: 331,
+    statType: "Pass Yards",
+    imageUrl: "/Herbert.webp",
+  },
+  {
+    name: "Kirk Cousins",
+    team: "MIN",
+    position: "QB",
+    opponent: "Sep 14th vs PHI",
+    statValue: 273,
+    statType: "Pass Yards",
+    imageUrl: "/Kirk_Cousins.webp",
+  },
+  {
+    name: "Justin Herbert",
+    team: "LAC",
+    position: "QB",
+    opponent: "Sep 13th vs CLE",
+    statValue: 331,
+    statType: "Pass Yards",
+    imageUrl: "/Herbert.webp",
+  },
+  {
+    name: "Kirk Cousins",
+    team: "MIN",
+    position: "QB",
+    opponent: "Sep 14th vs PHI",
+    statValue: 273,
+    statType: "Pass Yards",
+    imageUrl: "/Kirk_Cousins.webp",
+  },
+  {
+    name: "Justin Herbert",
+    team: "LAC",
+    position: "QB",
+    opponent: "Sep 13th vs CLE",
+    statValue: 331,
+    statType: "Pass Yards",
+    imageUrl: "/Herbert.webp",
+  },
+]
+
+interface PredictionCardProps {
+  player: Player
+  onCardSelect: (player: Player) => void
+
+  selectedPlayers: Player[]
+}
+
+const PredictionCard: React.FC<PredictionCardProps> = ({
+  player,
+  onCardSelect,
+  selectedPlayers,
+}) => {
+  const [isChecked, setChecked] = useState(false)
+
+  const handleCardClick = () => {
+    if (selectedPlayers.includes(player)) {
+      setChecked(false)
+      onCardSelect(player)
+    } else if (selectedPlayers.length < 2) {
+      setChecked(true)
+      onCardSelect(player)
+    }
+  }
+
+  return (
+    <Card
+      onClick={handleCardClick}
+      className="relative flex cursor-pointer flex-col items-center justify-center p-1"
+    >
+      <div className="absolute right-4 top-3">
+        <Checkbox checked={isChecked} onChange={handleCardClick} />
+      </div>
+      <img
+        className="mt-3 rounded-full"
+        src={player.imageUrl}
+        alt={player.name}
+        style={{ width: "110px", height: "110px" }}
+      />
+      <CardHeader className="flex w-full flex-col items-center justify-center pb-3 text-center">
+        <CardTitle className="text-lg font-bold">{player.name}</CardTitle>
+        <CardDescription>
+          {`${player.team} - ${player.position}`}
+          <br />
+          {player.opponent}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="mt-1 flex w-full justify-center">
+        <div className="flex w-52 items-center justify-between rounded-lg bg-violet-400/10 p-2">
+          <span className="pl-2 text-xl font-bold text-violet-500">
+            {player.statValue}
+          </span>
+          <span className="text-stone-400">|</span>
+          <span className="pr-2 text-sm font-medium">{player.statType}</span>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
 const Predictions: React.FC = () => {
   const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([])
-  const [players, setPlayers] = useState<Player[]>([])
   const [betAmount, setBetAmount] = useState<string>("")
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/fetchAndSavePredictions")
-        if (response.status === 200) setPlayers(response.data)
-      } catch (error) {
-        console.error("Error occurred while fetching predictions:", error)
-      }
-    }
-    void fetchData()
-  }, [])
+  {
+    selectedPlayers.map((player, index) => (
+      <SelectedCard
+        key={index}
+        player={player}
+        onDeselect={() => handleDeselect(player)}
+      />
+    ))
+  }
 
   const handleDeselect = (deselectedPlayer: Player) => {
     setSelectedPlayers((prev) =>
@@ -66,12 +249,12 @@ const Predictions: React.FC = () => {
             key={index}
             player={player}
             onCardSelect={handleCardSelect}
-            selectedPlayers={selectedPlayers}
+            selectedPlayers={selectedPlayers} // Add this line
           />
         ))}
       </div>
       <div className="w-1/3 pl-4">
-        <Card className="mb-3 p-3">
+        <Card className="mb-4 p-4">
           {selectedPlayers.length ? (
             <>
               <h2 className="mb-3 text-left text-base font-semibold">
@@ -105,8 +288,9 @@ const Predictions: React.FC = () => {
               onChange={(e) =>
                 setBetAmount(e.target.value.replace(/[^0-9]/g, ""))
               }
-              className="w-1/2 rounded border border-slate-600 bg-slate-950 p-3 py-6"
+              className="w-1/2 rounded border border-neutral-600 p-3 py-6"
             />
+
             <Input
               value={`To Win: $${Number(betAmount) * 2}`}
               readOnly
@@ -128,55 +312,6 @@ const Predictions: React.FC = () => {
         </Card>
       </div>
     </div>
-  )
-}
-
-const PredictionCard: React.FC<{
-  player: Player
-  onCardSelect: (player: Player) => void
-  selectedPlayers: Player[]
-}> = ({ player, onCardSelect, selectedPlayers }) => {
-  const [isChecked, setChecked] = useState(false)
-
-  const handleCardClick = () => {
-    if (selectedPlayers.includes(player)) {
-      setChecked(false)
-      onCardSelect(player)
-    } else if (selectedPlayers.length < 2) {
-      setChecked(true)
-      onCardSelect(player)
-    }
-  }
-
-  return (
-    <Card
-      onClick={handleCardClick}
-      className="relative flex cursor-pointer flex-col items-center justify-center p-1 shadow-lg shadow-slate-600/20"
-    >
-      <div className="absolute right-4 top-3">
-        <Checkbox checked={isChecked} onChange={handleCardClick} />
-      </div>
-      <img
-        className="mt-3 rounded-full"
-        src={player.imageUrl}
-        alt={player.name}
-        style={{ width: "110px", height: "110px" }}
-      />
-      <CardHeader className="flex w-full flex-col items-center justify-center pb-3 text-center">
-        <CardTitle className="text-lg font-bold">{player.name}</CardTitle>
-        <CardDescription>
-          {`${player.team} - ${player.position}`}
-          <br />
-          {player.opponent}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="mt-1 flex w-full justify-center">
-        <div className="flex w-52 items-center justify-between rounded-lg bg-slate-600/20 p-2">
-          <div className="text-xs font-semibold">{player.statType}</div>
-          <div className="text-xl font-semibold">{player.statValue}</div>
-        </div>
-      </CardContent>
-    </Card>
   )
 }
 
