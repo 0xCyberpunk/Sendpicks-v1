@@ -3,7 +3,7 @@ import axios from 'axios';
 import { PrismaClient, Prediction } from '@prisma/client';
 
 const prisma = new PrismaClient();
-const API_ENDPOINT = `https://baker-api.sportsdata.io/baker/v2/nfl/projections/players/2023REG/4/stat/passing_yards/avg?key=${process.env.SPORTS_DATA_API_KEY}&limit=20`;
+const API_ENDPOINT = `https://baker-api.sportsdata.io/baker/v2/nfl/projections/players/{season_name}/{week_number}/stat/passing_yards/avg?key=8ff9212d03e8437393997ea716d1e54e`;
 
 
 interface ApiPrediction {
