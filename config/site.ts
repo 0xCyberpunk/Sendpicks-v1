@@ -18,11 +18,11 @@ interface SiteConfig {
 export const SITE_CANONICAL = "https://turboeth.xyz"
 
 export const siteConfig: SiteConfig = {
-  name: "TurboETH",
-  title: "TurboETH - Web3 App Template",
-  emoji: "⚡",
+  name: "Sendpicks",
+  title: "Sendpicks - On-chain Daily Fantasy Sports",
+  emoji: "🏈",
   description:
-    "Start building full-stack Web3 applications in minutes with TurboETH.",
+    "Daily fantasy sports on-chain - you control the play.",
   localeDefault: "en",
   links: {
     docs: "https://docs.turboeth.xyz/overview",

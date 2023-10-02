@@ -15,29 +15,29 @@ model User {
   wagers       Wager[]
   transactions Transactions[]
 }
-
-model Sport {
-  id          String        @id @default(uuid())
-  name        String
-  predictions Prediction[]
-  wagers      Wager[]
-}
+//model Sport {
+ // id          String        @id @default(uuid())
+ // name        String
+ // predictions Prediction[]
+ // wagers      Wager[]
+//}
 
 model Prediction {
-  id            String   @id @default(uuid())
-  playerName    String
-  team          String
-  position      String
-  statType      String
-  statValue     Int
-  weekOpponent  String
-  gameTime      DateTime
-  predictionOn  Boolean
-  locked        Boolean  @default(false)
-  sportId       String   
-  sport         Sport    @relation(fields: [sportId], references: [id])
-  statOutcomes  StatOutcome[]
+  id           String       @id @default(uuid())
+  playerName   String       // Corresponds to 'name' from API
+  team         String       // Present in API
+  position     String       // Present in API
+  statType     String       @default("passing_yards") // Example, as it seems to be a specific type for this case
+  statValue    Float?       // Adjusted for 'value' from API. Made optional and type changed to Float?
+  weekOpponent String?      // Not present in API. Made optional.
+  gameTime     DateTime?    // Not present in API. Made optional.
+ // predictionOn Boolean      @default(true) // Example, set default as true
+  //locked       Boolean      @default(false)
+ // sportId      String       @default("default_sport_id") // replace with actual default ID
+ // sport        Sport        @relation(fields: [sportId], references: [id])
+  //statOutcomes StatOutcome[]
 }
+
 
 model Wager {
   id            String        @id
@@ -55,8 +55,8 @@ model Wager {
   startDate     DateTime
   payoutTime    DateTime
   sportId       String
-  sport         Sport         @relation(fields: [sportId], references: [id])
-  statOutcomes  StatOutcome[]
+  //sport         Sport         @relation(fields: [sportId], references: [id])
+  //statOutcomes  StatOutcome[]
   transactions  Transactions[]
 }
 
@@ -68,17 +68,17 @@ model Transactions {
   user    User  @relation(fields: [userId], references: [id])
 }
 
-model StatOutcome {
-  id            String     @id
-  predictionId  String
-  wagerId       String
-  outcomeType   String
-  outcomeValue  Int
-  multiplier    Int
-  payout        Boolean
-  prediction    Prediction @relation(fields: [predictionId], references: [id])
-  wager         Wager      @relation(fields: [wagerId], references: [id])
-}
+//model StatOutcome {
+ // id            String     @id
+ // predictionId  String
+//  wagerId       String
+ // outcomeType   String
+//  outcomeValue  Int
+//  multiplier    Int
+ // payout        Boolean
+ // prediction    Prediction @relation(fields: [predictionId], references: [id])
+ // wager         Wager      @relation(fields: [wagerId], references: [id])
+//}
 
 model LitProtocolMessage {
   id                      String   @id @default(uuid()) @map("_id")

@@ -18,7 +18,7 @@ export const metadata = {
   description: siteConfig.description,
   manifest: "/manifest.json",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon2.ico",
   },
   themeColor: "#feefc4",
   openGraph: {
