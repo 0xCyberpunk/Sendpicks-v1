@@ -1,12 +1,7 @@
 import { HTMLAttributes } from "react"
-import Link from "next/link"
-import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa"
 
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-
-import { LinkComponent } from "../shared/link-component"
-import { buttonVariants } from "../ui/button"
 
 export function Footer({ className, ...props }: HTMLAttributes<HTMLElement>) {
   const classes = cn(
@@ -15,26 +10,100 @@ export function Footer({ className, ...props }: HTMLAttributes<HTMLElement>) {
   )
 
   return (
-    <footer className={classes} {...props}>
-      <h3>{siteConfig.title}</h3>
-      <Link
-        href="https://districtlabs.com/"
-        target="_blank"
-        rel="noreferrer noopenner"
-        className={cn(buttonVariants({ variant: "link", size: "sm" }))}
-      >
-        Built by District Labs
-      </Link>
-      <div className="mt-2 flex items-center space-x-2">
-        <LinkComponent href={`${siteConfig.links.github}`}>
-          <FaGithub />
-        </LinkComponent>
-        <LinkComponent href={`${siteConfig.links.twitter}`}>
-          <FaTwitter />
-        </LinkComponent>
-        <LinkComponent href={`${siteConfig.links.discord}`}>
-          <FaDiscord />
-        </LinkComponent>
+    <footer className="mt-12 bg-white dark:bg-gray-900 ">
+      <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+        <div className="md:flex md:justify-between">
+          <div className="mb-6 md:mb-0">
+            <a
+              href="https://sendpicks.vercel.app/"
+              className="flex items-center"
+            >
+              <img
+                src="/Green_Sendpicks.png"
+                className="mr-3 h-8"
+                alt="Sendpicks Logo"
+              />
+              <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
+                Sendpicks
+              </span>
+            </a>
+          </div>
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 sm:gap-6">
+            <div>
+              <h2 className="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">
+                Pages
+              </h2>
+              <ul className="font-medium text-gray-500 dark:text-gray-400">
+                <li className="mb-4">
+                  <a
+                    href="https://sendpicks.vercel.app/"
+                    className="hover:underline"
+                  >
+                    Daily Picks
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://sendpicks.vercel.app/"
+                    className="hover:underline"
+                  >
+                    Marketing
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">
+                Follow us
+              </h2>
+              <ul className="font-medium text-gray-500 dark:text-gray-400">
+                <li className="mb-4">
+                  <a
+                    href="https://twitter.com/Sendpicks_io"
+                    className="hover:underline "
+                  >
+                    Twitter
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://twitter.com/Sendpicks_io"
+                    className="hover:underline"
+                  >
+                    Telegram
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">
+                Legal
+              </h2>
+              <ul className="font-medium text-gray-500 dark:text-gray-400">
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:underline">
+                    Terms &amp; Conditions
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <hr className="my-6 border-gray-200 dark:border-gray-700 sm:mx-auto lg:my-8" />
+        <div className="sm:flex sm:items-center sm:justify-between">
+          <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
+            © 2023{" "}
+            <a href="https://sendpicks.vercel.app/" className="hover:underline">
+              Sendpicks™
+            </a>
+            . All Rights Reserved.
+          </span>
+        </div>
       </div>
     </footer>
   )

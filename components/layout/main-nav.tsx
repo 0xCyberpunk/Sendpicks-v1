@@ -18,7 +18,7 @@ import { LightDarkImage } from "@/components/shared/light-dark-image"
 
 function MainNav({ onOpenSettings }: { onOpenSettings: () => void }) {
   return (
-    <div className="mr-4 hidden md:flex">
+    <div className="mr-4">
       <Link href="/" passHref>
         {" "}
         {/* Note the passHref prop */}
