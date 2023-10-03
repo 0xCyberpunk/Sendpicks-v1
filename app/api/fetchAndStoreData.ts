@@ -10,7 +10,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const statTypes = ['rushing_yards', 'passing_yards', 'receiving_yards'];
     
     for (const statType of statTypes) {
-      const response = await axios.get(`https://baker-api.sportsdata.io/baker/v2/nfl/projections/players/2023REG/${currentWeek}/stat/${statType}/avg?key=8ff9212d03e8437393997ea716d1e54e&limit=20`);
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+const response = await axios.get(`https://baker-api.sportsdata.io/baker/v2/nfl/projections/players/2023REG/${currentWeek}/stat/${statType}/avg?key=8ff9212d03e8437393997ea716d1e54e&limit=20`);
+
       const players = response.data;
       
       for (const player of players) {
