@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { Button } from "../ui/button"
 import {
@@ -22,139 +22,9 @@ export type Player = {
   imageUrl: string
 }
 
-export const players: Player[] = [
-  {
-    name: "Kirk Cousins",
-    team: "MIN",
-    position: "QB",
-    opponent: "Sep 14th vs PHI",
-    statValue: 273,
-    statType: "Pass Yards",
-    imageUrl: "/Kirk_Cousins.webp",
-  },
-  {
-    name: "Jalen Hurt",
-    team: "PHI",
-    position: "QB",
-    opponent: "Sep 12th vs DAL",
-    statValue: 250.5,
-    statType: "Pass Yards",
-    imageUrl: "/Hurts.webp",
-  },
-  {
-    name: "Kirk Cousins",
-    team: "MIN",
-    position: "QB",
-    opponent: "Sep 14th vs PHI",
-    statValue: 273,
-    statType: "Pass Yards",
-    imageUrl: "/Kirk_Cousins.webp",
-  },
-  {
-    name: "Justin Herbert",
-    team: "LAC",
-    position: "QB",
-    opponent: "Sep 13th vs CLE",
-    statValue: 331,
-    statType: "Pass Yards",
-    imageUrl: "/Herbert.webp",
-  },
-  {
-    name: "Justin Herbert",
-    team: "LAC",
-    position: "QB",
-    opponent: "Sep 13th vs CLE",
-    statValue: 331,
-    statType: "Pass Yards",
-    imageUrl: "/Herbert.webp",
-  },
-  {
-    name: "Jalen Hurt",
-    team: "PHI",
-    position: "QB",
-    opponent: "Sep 12th vs DAL",
-    statValue: 250.5,
-    statType: "Pass Yards",
-    imageUrl: "/Hurts.webp",
-  },
-  {
-    name: "Kirk Cousins",
-    team: "MIN",
-    position: "QB",
-    opponent: "Sep 14th vs PHI",
-    statValue: 273,
-    statType: "Pass Yards",
-    imageUrl: "/Kirk_Cousins.webp",
-  },
-  {
-    name: "Kirk Cousins",
-    team: "MIN",
-    position: "QB",
-    opponent: "Sep 14th vs PHI",
-    statValue: 273,
-    statType: "Pass Yards",
-    imageUrl: "/Kirk_Cousins.webp",
-  },
-  {
-    name: "Jalen Hurt",
-    team: "PHI",
-    position: "QB",
-    opponent: "Sep 12th vs DAL",
-    statValue: 250.5,
-    statType: "Receiving Yards",
-    imageUrl: "/Hurts.webp",
-  },
-  {
-    name: "Justin Herbert",
-    team: "LAC",
-    position: "QB",
-    opponent: "Sep 13th vs CLE",
-    statValue: 331,
-    statType: "Pass Yards",
-    imageUrl: "/Herbert.webp",
-  },
-  {
-    name: "Kirk Cousins",
-    team: "MIN",
-    position: "QB",
-    opponent: "Sep 14th vs PHI",
-    statValue: 273,
-    statType: "Pass Yards",
-    imageUrl: "/Kirk_Cousins.webp",
-  },
-  {
-    name: "Justin Herbert",
-    team: "LAC",
-    position: "QB",
-    opponent: "Sep 13th vs CLE",
-    statValue: 331,
-    statType: "Pass Yards",
-    imageUrl: "/Herbert.webp",
-  },
-  {
-    name: "Kirk Cousins",
-    team: "MIN",
-    position: "QB",
-    opponent: "Sep 14th vs PHI",
-    statValue: 273,
-    statType: "Pass Yards",
-    imageUrl: "/Kirk_Cousins.webp",
-  },
-  {
-    name: "Justin Herbert",
-    team: "LAC",
-    position: "QB",
-    opponent: "Sep 13th vs CLE",
-    statValue: 331,
-    statType: "Pass Yards",
-    imageUrl: "/Herbert.webp",
-  },
-]
-
 interface PredictionCardProps {
   player: Player
   onCardSelect: (player: Player) => void
-
   selectedPlayers: Player[]
 }
 
@@ -163,16 +33,11 @@ const PredictionCard: React.FC<PredictionCardProps> = ({
   onCardSelect,
   selectedPlayers,
 }) => {
-  const [isChecked, setChecked] = useState(false)
+  const [isChecked, setChecked] = useState(selectedPlayers.includes(player))
 
   const handleCardClick = () => {
-    if (selectedPlayers.includes(player)) {
-      setChecked(false)
-      onCardSelect(player)
-    } else if (selectedPlayers.length < 2) {
-      setChecked(true)
-      onCardSelect(player)
-    }
+    onCardSelect(player)
+    setChecked((prev) => !prev)
   }
 
   return (
@@ -211,23 +76,52 @@ const PredictionCard: React.FC<PredictionCardProps> = ({
 }
 
 const Predictions: React.FC = () => {
+  const [predictions, setPredictions] = useState<Player[]>([])
   const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([])
   const [betAmount, setBetAmount] = useState<string>("")
-  {
-    selectedPlayers.map((player, index) => (
-      <SelectedCard
-        key={index}
-        player={player}
-        onDeselect={() => handleDeselect(player)}
-      />
-    ))
+
+  interface PredictionResponse {
+    playerName: string
+    team: string
+    position: string
+    statValue: number
+    statType: string
   }
 
-  const handleDeselect = (deselectedPlayer: Player) => {
-    setSelectedPlayers((prev) =>
-      prev.filter((player) => player !== deselectedPlayer)
-    )
+  interface PredictionsData {
+    predictions: PredictionResponse[]
   }
+
+  useEffect(() => {
+    // Fetch data from your API
+    fetch("/api/getPredictions")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText)
+        }
+        return response.json()
+      })
+      .then((data: PredictionsData) => {
+        const formattedData = data.predictions.map(
+          (prediction: PredictionResponse) => ({
+            name: prediction.playerName,
+            team: prediction.team,
+            position: prediction.position,
+            opponent: "", // Update this if opponent data is available
+            statValue: prediction.statValue,
+            statType: prediction.statType,
+            imageUrl: "/default-image.webp", // Update this if you have a way to get player images
+          })
+        )
+        setPredictions(formattedData)
+      })
+      .catch((error) => {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        )
+      })
+  }, [])
 
   const handleCardSelect = (player: Player) => {
     setSelectedPlayers((prev) => {
@@ -239,17 +133,23 @@ const Predictions: React.FC = () => {
     })
   }
 
+  const handleDeselect = (deselectedPlayer: Player) => {
+    setSelectedPlayers((prev) =>
+      prev.filter((player) => player !== deselectedPlayer)
+    )
+  }
+
   const canPlaceBet = selectedPlayers.length === 2
 
   return (
     <div className="flex">
       <div className="grid w-2/3 grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-        {players.map((player, index) => (
+        {predictions.map((player, index) => (
           <PredictionCard
             key={index}
             player={player}
             onCardSelect={handleCardSelect}
-            selectedPlayers={selectedPlayers} // Add this line
+            selectedPlayers={selectedPlayers}
           />
         ))}
       </div>
@@ -290,7 +190,6 @@ const Predictions: React.FC = () => {
               }
               className="w-1/2 rounded border border-neutral-600 p-3 py-6"
             />
-
             <Input
               value={`To Win: $${Number(betAmount) * 2}`}
               readOnly
