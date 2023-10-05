@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 
 import { Button } from "../ui/button"
 import {
@@ -64,7 +64,7 @@ const PredictionCard: React.FC<PredictionCardProps> = ({
       </CardHeader>
       <CardContent className="mt-1 flex w-full justify-center">
         <div className="flex w-52 items-center justify-between rounded-lg bg-violet-400/10 p-2">
-          <span className="pl-2 text-xl font-bold text-violet-500">
+          <span className="pl-2 text-base font-bold text-green-300">
             {player.statValue}
           </span>
           <span className="text-stone-400">|</span>
@@ -92,36 +92,39 @@ const Predictions: React.FC = () => {
     predictions: PredictionResponse[]
   }
 
-  useEffect(() => {
-    // Fetch data from your API
-    fetch("/api/getPredictions")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok " + response.statusText)
-        }
-        return response.json()
-      })
-      .then((data: PredictionsData) => {
-        const formattedData = data.predictions.map(
-          (prediction: PredictionResponse) => ({
-            name: prediction.playerName,
-            team: prediction.team,
-            position: prediction.position,
-            opponent: "", // Update this if opponent data is available
-            statValue: prediction.statValue,
-            statType: prediction.statType,
-            imageUrl: "/default-image.webp", // Update this if you have a way to get player images
-          })
-        )
-        setPredictions(formattedData)
-      })
-      .catch((error) => {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        )
-      })
+  const fetchPredictions = useCallback(async () => {
+    try {
+      const response = await fetch("/api/getPredictions")
+      if (!response.ok) {
+        throw new Error("Network response was not ok " + response.statusText)
+      }
+      const data: PredictionsData = await response.json()
+      console.log("Received predictions data:", data)
+      const formattedData = data.predictions.map(
+        (prediction: PredictionResponse) => ({
+          name: prediction.playerName,
+          team: prediction.team,
+          position: prediction.position,
+          opponent: "", // Update this if opponent data is available
+          statValue: prediction.statValue,
+          statType: prediction.statType,
+          imageUrl: "/default_img.png", // Update this if you have a way to get player images
+        })
+      )
+      setPredictions(formattedData)
+    } catch (error) {
+      console.error(
+        "There has been a problem with your fetch operation:",
+        error
+      )
+    }
   }, [])
+
+  useEffect(() => {
+    void fetchPredictions()
+    const intervalId = setInterval(fetchPredictions, 60000)
+    return () => clearInterval(intervalId)
+  }, [fetchPredictions])
 
   const handleCardSelect = (player: Player) => {
     setSelectedPlayers((prev) => {
