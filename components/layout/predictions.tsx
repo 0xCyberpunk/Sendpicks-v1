@@ -122,7 +122,7 @@ const Predictions: React.FC = () => {
 
   useEffect(() => {
     void fetchPredictions()
-    const intervalId = setInterval(fetchPredictions, 60000)
+    const intervalId = setInterval(fetchPredictions, 900000)
     return () => clearInterval(intervalId)
   }, [fetchPredictions])
 
