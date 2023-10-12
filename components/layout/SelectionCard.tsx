@@ -14,7 +14,7 @@ import { Player } from "./predictions"
 
 interface SelectedCardProps {
   player: Player
-  onDeselect: () => void
+  onDeselect: (deselectedPlayer: Player) => void
 }
 
 export const SelectedCard: React.FC<SelectedCardProps> = ({
@@ -26,7 +26,7 @@ export const SelectedCard: React.FC<SelectedCardProps> = ({
   return (
     <Card className="relative mb-4 max-h-60 p-3 px-1">
       <button
-        onClick={onDeselect}
+        onClick={() => onDeselect(player)}
         className="absolute right-2 top-1 p-0 text-xl"
       >
         ✖️
@@ -41,12 +41,12 @@ export const SelectedCard: React.FC<SelectedCardProps> = ({
           />
           <div>
             <CardTitle>{player.name}</CardTitle>
-            <CardDescription className="mb-2 text-sm">
+            <CardDescription className="mb-2 pt-1 text-sm">
               {player.team} - {player.position}
               <br />
               {player.opponent}
             </CardDescription>
-            <div className="mt-2 flex w-40 items-center justify-between rounded-lg bg-slate-500/20 p-1 shadow-lg">
+            <div className="mt-2 flex w-44 items-center justify-between rounded-lg bg-slate-500/20 p-1 shadow-lg">
               <span className="pl-2 text-sm font-semibold text-green-400">
                 {player.statValue}
               </span>

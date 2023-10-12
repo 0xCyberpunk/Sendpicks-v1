@@ -10,6 +10,15 @@ import {
 } from "../ui/card"
 import { Checkbox } from "../ui/checkbox"
 import { Input } from "../ui/input"
+import { Label } from "../ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import SelectedCard from "./SelectionCard"
 
 export type Player = {
@@ -54,7 +63,7 @@ const PredictionCard: React.FC<PredictionCardProps> = ({
         alt={player.name}
         style={{ width: "110px", height: "110px" }}
       />
-      <CardHeader className="flex w-full flex-col items-center justify-center pb-3 text-center">
+      <CardHeader className="flex w-full flex-col items-center justify-center pb-1 text-center">
         <CardTitle className="text-lg font-bold">{player.name}</CardTitle>
         <CardDescription>
           {`${player.team} - ${player.position}`}
@@ -62,9 +71,9 @@ const PredictionCard: React.FC<PredictionCardProps> = ({
           {player.opponent}
         </CardDescription>
       </CardHeader>
-      <CardContent className="mt-1 flex w-full justify-center">
-        <div className="flex w-52 items-center justify-between rounded-lg bg-violet-400/10 p-2">
-          <span className="pl-2 text-base font-bold text-green-300">
+      <CardContent className="flex w-full justify-center">
+        <div className="flex w-60 items-center justify-between rounded-lg bg-violet-400/10 p-2">
+          <span className="pl-2 text-lg font-bold text-green-300">
             {player.statValue}
           </span>
           <span className="text-stone-400">|</span>
@@ -185,16 +194,53 @@ const Predictions: React.FC = () => {
             </>
           )}
           <div className="mb-5 mt-4 flex space-x-4">
+            <div>
+              <div className="relative rounded-md shadow-sm">
+                <div className="relative flex items-center rounded-md shadow-sm">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <span className="text-gray-500 sm:text-sm">$</span>
+                  </div>
+                  <Input
+                    type="text"
+                    name="price"
+                    id="price"
+                    placeholder="0.00"
+                    className="relative grow rounded-l border border-purple-800 bg-purple-300/10 p-3 py-6 font-semibold text-purple-200"
+                    value={`Bet: $${betAmount}`}
+                    onChange={(e) =>
+                      setBetAmount(e.target.value.replace(/[^0-9]/g, ""))
+                    }
+                  />
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-0">
+                    {" "}
+                    {/* Adjusted padding right */}
+                    <Label htmlFor="currency" className="sr-only">
+                      Currency
+                    </Label>
+                    <Select defaultValue="ETH">
+                      {" "}
+                      {/* Added border-0 */}
+                      <SelectTrigger id="currency" className="border-0">
+                        {" "}
+                        {/* Added border-0 */}
+                        <SelectValue
+                          className="border-0"
+                          placeholder="Select"
+                        />{" "}
+                        {/* Added border-0 */}
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="ETH">ETH</SelectItem>
+                        <SelectItem value="SEND">SEND</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <Input
-              placeholder="Bet amount"
-              value={`${betAmount}`}
-              onChange={(e) =>
-                setBetAmount(e.target.value.replace(/[^0-9]/g, ""))
-              }
-              className="w-1/2 rounded border border-neutral-600 p-3 py-6"
-            />
-            <Input
-              value={`To Win: $${Number(betAmount) * 2}`}
+              value={`Win: $${Number(betAmount) * 2}`}
               readOnly
               className="w-1/2 cursor-not-allowed rounded border border-green-800 bg-green-300/10 p-3 py-6 font-semibold text-green-300"
             />

@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react"
 import Link from "next/link"
 
@@ -16,15 +14,11 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { LightDarkImage } from "@/components/shared/light-dark-image"
 
-function MainNav({ onOpenSettings }: { onOpenSettings: () => void }) {
+function MainNav() {
   return (
-    <div className="mr-4">
+    <div className="mr-4 flex items-center">
       <Link href="/" passHref>
-        {" "}
-        {/* Note the passHref prop */}
         <div className="mr-6 flex cursor-pointer items-center space-x-2">
-          {" "}
-          {/* Replaced <a> with <div> */}
           <LightDarkImage
             LightImage="/Green_Sendpicks.png"
             DarkImage="/Green_Sendpicks.png"
@@ -35,17 +29,32 @@ function MainNav({ onOpenSettings }: { onOpenSettings: () => void }) {
         </div>
       </Link>
       <nav className="flex items-center space-x-6 text-base font-medium">
-        <MainNavMenu onOpenSettings={onOpenSettings} />
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <Link href="/" passHref>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <a>Daily Picks</a>
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href="dashboard" passHref>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <a>Dashboard</a>
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </nav>
     </div>
-  )
-}
-
-function MainNavMenu({ onOpenSettings }: { onOpenSettings: () => void }) {
-  return (
-    <NavigationMenu>
-      <NavigationMenuList></NavigationMenuList>
-    </NavigationMenu>
   )
 }
 

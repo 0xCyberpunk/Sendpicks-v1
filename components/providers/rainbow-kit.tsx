@@ -22,15 +22,15 @@ import { chains, publicClient, webSocketPublicClient } from "@/config/networks"
 import { siteConfig } from "@/config/site"
 import { useColorMode } from "@/lib/state/color-mode"
 
+const projectId = "cd2942269d4f3fdf8a44e3269c0758fd"
+
 const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
-      injectedWallet({ chains }),
-      metaMaskWallet({ chains }),
-      rainbowWallet({ chains }),
-      coinbaseWallet({ chains, appName: siteConfig.name }),
-      walletConnectWallet({ chains }),
+      metaMaskWallet({ projectId, chains }),
+      rainbowWallet({ projectId, chains }),
+      walletConnectWallet({ projectId, chains }),
     ],
   },
 ])

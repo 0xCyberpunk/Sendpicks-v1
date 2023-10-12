@@ -30,9 +30,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       <div className="container mx-auto px-1">
-        <div className="">
-          <div className="ml-auto flex items-center space-x-4"></div>
-        </div>
+        <div className="ml-auto flex items-center space-x-4"></div>
 
         <div className="flex-1 space-y-4 p-8 pt-6">
           <div className="flex items-center justify-start space-y-2">
