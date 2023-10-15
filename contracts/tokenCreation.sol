@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+//pragma solidity ^0.8.19;
 
 // Importing required OpenZeppelin Contracts
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol"; // Standard ERC20 Token Implementation
+/*import "@openzeppelin/contracts/token/ERC20/ERC20.sol"; // Standard ERC20 Token Implementation
 import "@openzeppelin/contracts/access/Ownable.sol"; // Access Control Contract
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol"; // Protection against reentrant calls
 import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol"; // Uniswap Router Interface for performing swaps
@@ -168,3 +168,4 @@ contract SENDToken is ERC20, Ownable, ReentrancyGuard {
         }
     }
 }
+*/
