@@ -22,7 +22,7 @@ export const NEXTAUTH_SECRET = env.NEXTAUTH_SECRET
 export const SERVER_SESSION_SETTINGS: IronSessionOptions = {
   cookieName: siteConfig.name,
   password:
-    NEXTAUTH_SECRET ?? "UPDATE_TO_complex_password_at_least_32_characters_long",
+    NEXTAUTH_SECRET ?? "SomethingREallyComplexHEreThats*#VERyLongBEcauseYWEah",
   cookieOptions: {
     secure: process.env.NODE_ENV == "production",
   },

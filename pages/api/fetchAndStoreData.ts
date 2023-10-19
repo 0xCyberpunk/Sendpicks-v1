@@ -2,7 +2,7 @@ import axios from 'axios';
 import { PrismaClient } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 
 

@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# PNPM Lock
+pnpm-lock.yaml
+
 # turborepo
 .turbo
 

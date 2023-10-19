@@ -6,7 +6,10 @@ export async function GET(req: Request) {
   const res = new Response()
   const session = await getIronSession(req, res, SERVER_SESSION_SETTINGS)
 
+  console.log("This is being executed")
+
   if (session.siwe) {
+    console.log(session.siwe.address);
     return new Response(
       JSON.stringify({
         address: session.siwe.address,

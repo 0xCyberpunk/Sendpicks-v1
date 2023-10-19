@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const predictions = await prisma.prediction.findMany();
-    console.log('Retrieved predictions:', predictions);
+    // console.log('Retrieved predictions:', predictions);
     res.status(200).json({ predictions });
   } catch (error) {
     const message = error instanceof Error ? error.message : "An unknown error occurred";

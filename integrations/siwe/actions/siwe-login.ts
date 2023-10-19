@@ -20,6 +20,10 @@ export const siweLogin = async ({
     chainId,
     signMessageAsync,
   })
+  
+  console.log("executed");
+
+  console.log(address)
 
   // 2. Verify signature
   const verifyRes = await fetch("/api/siwe/verify", {
@@ -29,7 +33,7 @@ export const siweLogin = async ({
     },
     body: JSON.stringify({ message, signature }),
   })
-
+  console.log(verifyRes.json())
   if (!verifyRes.ok) throw new Error("Error verifying message")
   if (verifyRes.status === 200) {
     dispatchEvent(new Event("verified"))

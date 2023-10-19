@@ -38,6 +38,8 @@ export const ButtonSIWELogin = ({
     "opacity-0": isLoading,
   })
 
+  console.log("Component Being Mounted")
+
   return (
     <Button
       variant="emerald"

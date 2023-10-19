@@ -41,7 +41,8 @@ export async function POST(req: Request) {
     await session.save()
 
     if (env.DATABASE_URL) {
-      await prisma.user.upsert({
+      console.log("This runs")
+      const res = await prisma.user.upsert({
         where: { id: fields.address },
         update: {
           address: fields.address,
@@ -52,6 +53,7 @@ export async function POST(req: Request) {
           
         },
       })
+      console.log(res)
     }
 
     return res
